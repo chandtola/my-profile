@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Tola manufactures premium waterproof rainwear and windcheaters for men and women in Nepal. Wholesale & retail available.">
     <title>Tola - Premium Rainwear & Windcheaters</title>
     <style>
         /* === GLOBAL STYLES === */
@@ -14,7 +15,6 @@
 
         :root {
             --navy: #0a2540;
-            --light-blue: #e6f2ff; /* Soft light blue background */
             --dark-grey: #333333;
             --footer-dark: #081a2d;
             --light-navy: #1e3a5f;
@@ -24,7 +24,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--dark-grey);
-            background-color: var(--light-blue); /* Entire site light blue */
+            background-color: white;
         }
 
         .container {
@@ -90,7 +90,7 @@
             color: var(--navy);
         }
 
-        /* === HERO SECTION (ORIGINAL LOGO, 25% BIGGER) === */
+        /* === HERO SECTION === */
         .hero {
             height: 100vh;
             display: flex;
@@ -98,37 +98,46 @@
             justify-content: center;
             text-align: center;
             padding: 0 1rem;
-            background: 
-                url('images/logo.jpg') center center no-repeat; /* No overlay, no filter */
-            background-size: 62.5%; /* 50% * 1.25 = 62.5% */
+            background: url('images/logo.jpg') center center no-repeat;
+            background-size: 75%; /* 50% original → 50% * 1.5 = 75% */
             position: relative;
             margin-top: 70px;
+            background-color: var(--navy); /* fallback if image fails */
         }
 
         .hero-content {
             max-width: 800px;
             z-index: 2;
-            background-color: rgba(255, 255, 255, 0.9); /* Slight white backdrop for text readability */
             padding: 2rem;
-            border-radius: 10px;
+            /* Removed white background */
         }
 
         .hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
-            color: var(--navy);
+            color: white; /* Text on image → white */
+            text-shadow: 0 2px 6px rgba(0,0,0,0.4); /* improves readability */
         }
 
         .hero p {
             font-size: 1.3rem;
             margin-bottom: 2rem;
-            color: var(--navy);
+            color: white; /* Text on image → white */
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
 
-        /* === SECTIONS === */
+        /* === SECTIONS (SCROLL AREAS) === */
         section {
             padding: 5rem 0;
-            background-color: var(--light-blue);
+            background-color: white;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .section-title {
@@ -200,6 +209,12 @@
             border-radius: 8px;
             margin-bottom: 1rem;
             border: 1px solid var(--light-navy);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .product-card img:hover {
+            transform: scale(1.02);
         }
 
         .product-sizes {
@@ -290,6 +305,54 @@
             border-top: 3px solid var(--navy);
         }
 
+        /* === LIGHTBOX MODAL === */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            height: auto;
+            width: auto;
+            border: 3px solid white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            object-fit: contain;
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .close-lightbox:hover {
+            opacity: 1;
+        }
+
         /* === RESPONSIVE DESIGN === */
         @media (max-width: 768px) {
             .hero h1 {
@@ -314,7 +377,7 @@
             }
             
             .hero {
-                background-size: 80%; /* Slightly larger on mobile */
+                background-size: 90%; /* Slightly larger on mobile */
                 margin-top: 120px;
             }
             
@@ -337,7 +400,7 @@
         </nav>
     </header>
 
-    <!-- Hero Section with Original, Larger Logo -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
             <h1>Manufacturer of High Quality Rainwear and Windcheater</h1>
@@ -371,27 +434,27 @@
                     <h3>Men’s Collection</h3>
                     <div class="product-grid">
                         <div class="product-card">
-                            <img src="images/men1.jpg" alt="Men's Windcheater 1">
+                            <img src="images/men1.jpg" alt="Men's Windcheater 1" class="product-thumbnail" data-full="images/men1.jpg" loading="lazy">
                             <h4>Windcheater</h4>
                             <p class="product-sizes">Sizes: M, L, XL, XXL</p>
                         </div>
                         <div class="product-card">
-                            <img src="images/men2.jpg" alt="Men's Windcheater 2">
+                            <img src="images/men2.jpg" alt="Men's Windcheater 2" class="product-thumbnail" data-full="images/men2.jpg" loading="lazy">
                             <h4>Windcheater</h4>
                             <p class="product-sizes">Sizes: M, L, XL, XXL</p>
                         </div>
                         <div class="product-card">
-                            <img src="images/men3.jpg" alt="Men's Windcheater 3">
+                            <img src="images/men3.jpg" alt="Men's Windcheater 3" class="product-thumbnail" data-full="images/men3.jpg" loading="lazy">
                             <h4>Windcheater</h4>
                             <p class="product-sizes">Sizes: M, L, XL, XXL</p>
                         </div>
                         <div class="product-card">
-                            <img src="images/rainmen1.jpg" alt="Men's Rainwear 1">
+                            <img src="images/rainmen1.jpg" alt="Men's Rainwear 1" class="product-thumbnail" data-full="images/rainmen1.jpg" loading="lazy">
                             <h4>Rainwear</h4>
                             <p class="product-sizes">Sizes: L, XL</p>
                         </div>
                         <div class="product-card">
-                            <img src="images/rainmen2.jpg" alt="Men's Rainwear 2">
+                            <img src="images/rainmen2.jpg" alt="Men's Rainwear 2" class="product-thumbnail" data-full="images/rainmen2.jpg" loading="lazy">
                             <h4>Rainwear</h4>
                             <p class="product-sizes">Sizes: L, XL</p>
                         </div>
@@ -403,17 +466,17 @@
                     <h3>Women’s Collection</h3>
                     <div class="product-grid">
                         <div class="product-card">
-                            <img src="images/women1.jpg" alt="Women's Windcheater 1">
+                            <img src="images/women1.jpg" alt="Women's Windcheater 1" class="product-thumbnail" data-full="images/women1.jpg" loading="lazy">
                             <h4>Windcheater</h4>
                             <p class="product-sizes">Sizes: M, L, XL, XXL</p>
                         </div>
                         <div class="product-card">
-                            <img src="images/women2.jpg" alt="Women's Windcheater 2">
+                            <img src="images/women2.jpg" alt="Women's Windcheater 2" class="product-thumbnail" data-full="images/women2.jpg" loading="lazy">
                             <h4>Windcheater</h4>
                             <p class="product-sizes">Sizes: M, L, XL, XXL</p>
                         </div>
                         <div class="product-card">
-                            <img src="images/rainwomen1.jpg" alt="Women's Rainwear">
+                            <img src="images/rainwomen1.jpg" alt="Women's Rainwear" class="product-thumbnail" data-full="images/rainwomen1.jpg" loading="lazy">
                             <h4>Rainwear</h4>
                             <p class="product-sizes">Sizes: L, XL</p>
                         </div>
@@ -467,6 +530,12 @@
         <p>&copy; 2025 Tola. All rights reserved.</p>
     </footer>
 
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox-modal">
+        <span class="close-lightbox">&times;</span>
+        <img id="lightbox-img" src="" alt="Enlarged product image">
+    </div>
+
     <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -487,6 +556,48 @@
             e.preventDefault();
             alert('Thank you for your message! We will get back to you soon.');
             this.reset();
+        });
+
+        // Fade-in sections on scroll
+        const sections = document.querySelectorAll('section:not(.hero)');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        sections.forEach(section => observer.observe(section));
+
+        // Lightbox functionality
+        document.querySelectorAll('.product-thumbnail').forEach(img => {
+            img.addEventListener('click', () => {
+                const fullSrc = img.getAttribute('data-full');
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightbox-img');
+                
+                lightboxImg.src = fullSrc;
+                lightboxImg.alt = img.alt;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close lightbox
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox' || e.target.classList.contains('close-lightbox')) {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('lightbox').classList.contains('active')) {
+                document.getElementById('lightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
     </script>
 </body>
